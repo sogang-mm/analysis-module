@@ -4,7 +4,8 @@ from __future__ import unicode_literals
 from django.db import models
 
 # Create your models here.
-from Modules.manager import analyzer_module
+from WebAnalyzer.tasks import analyzer_by_path
+
 
 class ImageModel(models.Model):
     image = models.ImageField()
@@ -15,5 +16,5 @@ class ImageModel(models.Model):
 
     def save(self, *args, **kwargs):
         super(ImageModel, self).save(*args, **kwargs)
-        self.result = analyzer_module.get_result_by_path(self.image.path)
+        self.result = analyzer_by_path.delay(self.image.path).get()
         super(ImageModel, self).save()

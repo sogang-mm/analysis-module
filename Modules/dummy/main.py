@@ -10,7 +10,7 @@ class Dummy:
         # TODO
         #   - Inference using image path
         import time
-        time.sleep(10)
+        time.sleep(5)
         result = [[[(0, 0, 0, 0), {'TEST': 0.95, 'DEBUG': 0.05}]]]
         self.result = result
 
