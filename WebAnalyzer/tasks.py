@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from AnalysisModule.celerys import app
 from celery.signals import worker_init, worker_process_init
 from billiard import current_process
@@ -19,9 +21,9 @@ def model_load_init(**__):
     global analyzer
     worker_index = current_process().index
 
-    print "===================="
-    print " Worker id: {0}".format(worker_index)
-    print "===================="
+    print("====================")
+    print(" Worker id: {0}".format(worker_index))
+    print("====================")
 
     # TODO:
     #   - Add your model
