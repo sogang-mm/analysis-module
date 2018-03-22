@@ -3,10 +3,6 @@ from __future__ import print_function
 from AnalysisModule.celerys import app
 from celery.signals import worker_init, worker_process_init
 from billiard import current_process
-from AnalysisModule import config
-
-
-analyzer = None
 
 
 @worker_init.connect
@@ -22,7 +18,7 @@ def model_load_init(**__):
     worker_index = current_process().index
 
     print("====================")
-    print(" Worker id: {0}".format(worker_index))
+    print(" Worker Id: {0}".format(worker_index))
     print("====================")
 
     # TODO:
