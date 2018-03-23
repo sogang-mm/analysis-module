@@ -12,6 +12,7 @@ def delete_old_database(days=0):
     date_point = date_now - date_delta
 
     old_database = models.ImageModel.objects.filter(uploaded_date__lte=date_point)
+    old_database_count = old_database.count()
     old_database.delete()
 
     print("====================")
@@ -19,4 +20,4 @@ def delete_old_database(days=0):
     print(" - Date Point: {0}".format(date_point))
     print("====================")
 
-    return True
+    return old_database_count
