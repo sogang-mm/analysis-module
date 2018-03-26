@@ -100,9 +100,27 @@ def analyzer_by_path(image_path):
 
 
 ## 실행하기
-### Django App 
+### Django Database Initialize
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+### Web Start
+
+아래의 두 방식을 하나로 합쳐 shell  파일로 구성하는 것이 매우 편하다.
+각각 프로그램에 따라 로그가 생성된다.
+```bash
+nohup sh -- ./run_celery.sh > celery.log &
+nohup sh -- ./run_django.sh > django.log &
+```
+
+#### run_django.sh
 본인이 열어놓은 포트에 맞춰 아래의 Bash Shell에서 PROT 부분을 변경하여 실행한다
 ```bash
 python manage.py runserver 0.0.0.0:PORT
 ```
 
+#### run_celery.sh
+```bash
+celery -A AnalysisModule worker -B -l info
+```
