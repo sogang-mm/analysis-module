@@ -13,6 +13,8 @@ def delete_old_database(days=0):
 
     old_database = models.ImageModel.objects.filter(uploaded_date__lte=date_point)
     old_database_count = old_database.count()
+    for each_database in old_database:  # Delete local image files
+        each_database.image.delete()
     old_database.delete()
 
     print("====================")
