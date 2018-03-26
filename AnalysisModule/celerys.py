@@ -21,7 +21,11 @@ app.autodiscover_tasks(related_name='beats')
 app.conf.beat_schedule = {
     'delete-old-database': {
         'task': 'WebAnalyzer.beats.delete_old_database',
-        'schedule': crontab(hour=config.DATABASE_AUTO_DELETE_HOUR, minute=config.DATABASE_AUTO_DELETE_MINUTE),
+        'schedule': crontab(
+            hour=config.DATABASE_AUTO_DELETE_HOUR,
+            minute=config.DATABASE_AUTO_DELETE_MINUTE,
+            day_of_week=config.DATABASE_AUTO_DELETE_DAY_OF_WEEK,
+        ),
         'args': (config.DATABASE_AUTO_DELETE_BEFORE_DAYS,),
     },
 }

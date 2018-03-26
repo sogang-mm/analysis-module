@@ -13,7 +13,7 @@ def model_load_info(**__):
 
 
 @worker_process_init.connect
-def model_load_init(**__):
+def module_load_init(**__):
     global analyzer
     worker_index = current_process().index
 
