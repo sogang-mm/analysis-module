@@ -16,6 +16,13 @@ sudo service rabbitmq-server restart
 pip install -r requirements.txt
 ```
 
+만약 pip requirements가 설치되지 않는다면 pip를 업데이트 한 후, 다음 package를 먼저 설치한다
+```bash
+pip install --upgrade pip
+pip install setuptools
+```
+
+
 ### Django Secret Key
 
 Django 실행에 필요한 Secret Key를 구성한다.
