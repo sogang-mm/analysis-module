@@ -6,7 +6,7 @@ from WebAnalyzer import views
 
 router = DefaultRouter()
 
-router.register(r'image', views.ImageViewSet)
+router.register(r'analyzer', views.ImageViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
