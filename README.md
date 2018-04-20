@@ -122,7 +122,7 @@ nohup sh -- ./run_django.sh > django.log &
 ```
 
 #### run_django.sh
-본인이 열어놓은 포트에 맞춰 아래의 Bash Shell에서 PROT 부분을 변경하여 실행한다
+본인이 열어놓은 포트에 맞춰 아래의 Bash Shell에서 PORT 부분을 변경하여 실행한다
 ```bash
 python manage.py runserver 0.0.0.0:PORT
 ```
