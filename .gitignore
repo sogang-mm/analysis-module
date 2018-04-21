@@ -1,7 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 AnalysisModule/secret_key.py
 .idea
-*.sh
 */migrations/[0-9]*_*.py
 
 
