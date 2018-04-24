@@ -4,7 +4,26 @@
 
 ### 필요 프로그램 설치
 
-실행하기 전, celery에 필요한 message broker software인 RabbitMQ를 설치한다.
+#### Docker 사용 시
+
+Docker를 사용할 경우 docker 폴더로 이동하여 Dockerfile의 맨 윗부분의 FROM 부분을 본인이 사용할 Docker Image로 수정하고 빌드한다.
+
+##### Dockerfile
+```Dockerfile
+FROM ubuntu:16.04
+```
+
+##### Docker Build
+```bash
+cd docker
+docker build [OPTIONS] -tag [TAG] .
+```
+
+
+
+#### 일반적인 사용 시
+
+실행하기 전, Celery에 필요한 message broker software인 RabbitMQ를 설치한다.
 
 ```bash
 sudo apt-get install rabbitmq-server
@@ -107,27 +126,33 @@ def analyzer_by_path(image_path):
 
 
 ## 실행하기
-### Django Database Initialize
+### Django Initialize
+해당 프로그램을 실행하기 위해서는 Django에서 Database를 초기화해야 한다.
+이 작업은 맨 처음 및 Django의 Model 구조 변화 시 필요하다.
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+sh initailize_server.sh
 ```
+
 ### Web Start
-
-아래의 두 방식을 하나로 합쳐 shell  파일로 구성하는 것이 매우 편하다.
-각각 프로그램에 따라 로그가 생성된다.
+전체 프로그램을 실행하는 것은 다음과 같이 입력한다.
 ```bash
-nohup sh -- ./run_celery.sh > celery.log &
-nohup sh -- ./run_django.sh > django.log &
+sh start_server.sh
 ```
 
-#### run_django.sh
-본인이 열어놓은 포트에 맞춰 아래의 Bash Shell에서 PORT 부분을 변경하여 실행한다
+#### Django Only
+만약 Debug 등의 이유로 Django만 실행하고 싶을 경우 다음과 같이 입력한다. 주로 웹 페이지를 통한 접근에 문제가 있을 경우, 확인을 위해 실행한다.
 ```bash
-python manage.py runserver 0.0.0.0:PORT
+sh run_django.sh
 ```
 
-#### run_celery.sh
+#### Celery Only
+만약 Debug 등의 이유로 Celery만 실행하고 싶을 경우 다음과 같이 입력한다. 주로 Module을 통한 결과에 문제가 있을 경우, 확인을 위해 실행한다.
 ```bash
-celery -A AnalysisModule worker -B -l info
+sh run_celery.sh
+```
+
+### Web Shutdown
+전체 프로그램을 종료하는 것은 다음과 같이 입력한다.
+```bash
+sh shutdown_server.sh
 ```
