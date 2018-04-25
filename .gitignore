@@ -2,6 +2,7 @@
 AnalysisModule/secret_key.py
 .idea
 */migrations/[0-9]*_*.py
+media/*
 
 
 ### Python template
