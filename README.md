@@ -16,7 +16,7 @@ FROM ubuntu:16.04
 ##### Docker Build
 ```bash
 cd docker
-docker build [OPTIONS] -tag [TAG] .
+docker build [OPTIONS] -t [TAG] .
 ```
 
 
