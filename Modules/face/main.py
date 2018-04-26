@@ -12,7 +12,7 @@ import cv2
 import math
 class Face():
     def __init__(self) :
-        classifier_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)),'data/friends_S01.pkl')
+        classifier_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)),'classifier.pkl')
 
         with open(classifier_filename, 'rb') as infile:
             (self.models,self.class_names) = pickle.load(infile)
@@ -21,7 +21,7 @@ class Face():
             config = tf.ConfigProto()
             config.gpu_options.per_process_gpu_memory_fraction = 0.25
             self.sess_detect = tf.Session(config = config)
-            model =os.path.join(os.path.dirname(os.path.realpath(__file__)),'data/20170512-110547.pb')
+            model =os.path.join(os.path.dirname(os.path.realpath(__file__)),'20170512-110547.pb')
             facenet.load_model(model)
             self.images_placeholder = tf.get_default_graph().get_tensor_by_name("input:0")
             self.embeddings = tf.get_default_graph().get_tensor_by_name("embeddings:0")
