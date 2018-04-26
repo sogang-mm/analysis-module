@@ -3,8 +3,7 @@ from __future__ import print_function
 from AnalysisModule.celerys import app
 from celery.signals import worker_init, worker_process_init
 from billiard import current_process
-
-
+from Modules.face.main import Face
 @worker_init.connect
 def model_load_info(**__):
     print("====================")
@@ -25,11 +24,10 @@ def module_load_init(**__):
     #   - Add your model
     #   - You can use worker_index if you need to get and set gpu_id
     #       - ex) gpu_id = worker_index % TOTAL_GPU_NUMBER
-    from Modules.dummy.main import Dummy
-    analyzer = Dummy()
+    analyzer = Face()
 
 
 @app.task
 def analyzer_by_path(image_path):
     result = analyzer.inference_by_path(image_path)
-    return result
+    return str(result)
