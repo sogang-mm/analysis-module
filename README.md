@@ -158,3 +158,12 @@ sh run_celery.sh
 ```bash
 sh shutdown_server.sh
 ```
+
+
+### Library Install
+pip install tensorflow-gpu==1.3
+pip install scikit-learn
+pip install opencv-python
+apt-get install libgtk2.0-dev
+pip install cmake
+pip install dlib
