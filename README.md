@@ -53,7 +53,8 @@ vi secret_key.py
 ```python
 SECRET_KEY = ""
 ```
-https://djskgen.herokuapp.com/에서 생성할 수 있다.
+https://djskgen.herokuapp.com/ 에서 생성할 수 있다.
+
 
 ## Module 추가하기
 
@@ -156,4 +157,15 @@ sh run_celery.sh
 전체 프로그램을 종료하는 것은 다음과 같이 입력한다.
 ```bash
 sh shutdown_server.sh
+```
+
+
+### Library Install
+```bash
+pip install tensorflow-gpu==1.3
+pip install scikit-learn
+pip install opencv-python
+apt-get install libgtk2.0-dev
+pip install cmake
+pip install dlib
 ```
