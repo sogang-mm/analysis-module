@@ -4,23 +4,6 @@
 
 ### 필요 프로그램 설치
 
-#### Docker 사용 시
-
-Docker를 사용할 경우 docker 폴더로 이동하여 Dockerfile의 맨 윗부분의 FROM 부분을 본인이 사용할 Docker Image로 수정하고 빌드한다.
-
-##### Dockerfile
-```Dockerfile
-FROM ubuntu:16.04
-```
-
-##### Docker Build
-```bash
-cd docker
-docker build [OPTIONS] -t [TAG] .
-```
-
-
-
 #### 일반적인 사용 시
 
 실행하기 전, Celery에 필요한 message broker software인 RabbitMQ를 설치한다.
@@ -40,6 +23,22 @@ pip install -r requirements.txt
 pip install --upgrade pip
 pip install setuptools
 ```
+
+#### Docker 사용 시
+
+Docker를 사용할 경우 docker 폴더로 이동하여 Dockerfile의 맨 윗부분의 FROM 부분을 본인이 사용할 Docker Image로 수정하고 빌드한다.
+
+##### Dockerfile
+```Dockerfile
+FROM ubuntu:16.04
+```
+
+##### Docker Build
+```bash
+cd docker
+docker build [OPTIONS] -t [TAG] .
+```
+
 
 
 ### Django Secret Key
