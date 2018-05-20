@@ -40,21 +40,6 @@ docker build [OPTIONS] -t [TAG] .
 ```
 
 
-
-### Django Secret Key
-
-Django 실행에 필요한 Secret Key를 구성한다.
-```bash
-cd AnalysisModule
-vi secret_key.py
-``` 
-- secret_key.py
-```python
-SECRET_KEY = ""
-```
-https://djskgen.herokuapp.com/ 에서 생성할 수 있다.
-
-
 ## Module 추가하기
 
 ### Class 생성하기
