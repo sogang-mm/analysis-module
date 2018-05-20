@@ -1,6 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
-AnalysisModule/secret_key.py
 .idea
+.SECRET_KEY
 */migrations/[0-9]*_*.py
 db.sqlite3
 media/*
