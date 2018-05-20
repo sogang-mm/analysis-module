@@ -17,7 +17,7 @@ class SECRET_KEY:
         if filename is not None:
             self.filename = filename
         self.path = os.path.join(self.directory, self.filename)
-        if self.exist_secret_key:
+        if self.exist_secret_key():
             self.get_secret_key()
         else:
             self.set_secret_key()
