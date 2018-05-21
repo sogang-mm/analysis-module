@@ -5,10 +5,11 @@ from django.db import models
 
 # Create your models here.
 from WebAnalyzer.tasks import analyzer_by_path
+from WebAnalyzer.utils import filename
 
 
 class ImageModel(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to=filename.default)
     token = models.AutoField(primary_key=True)
     uploaded_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
