@@ -30,9 +30,8 @@ class SECRET_KEY:
     def get_secret_key(self):
         with open(self.path, 'r') as f:
             self.value = f.read(self.length)
-        exception_value = filter(lambda char: char not in self.allowed_chars, self.value)
-        if len(exception_value) > 0:
-            raise ValueError('The secret key must contain only the following characters: "{}"'. format(self.allowed_chars))
+        if len([x for x in self.value if x not in self.allowed_chars]) > 0:
+            raise ValueError('The secret key must contain only the following characters: {}'. format(self.allowed_chars))
         if len(self.value) != self.length:
             raise ValueError('The secret key must be 50 characters.')
 
