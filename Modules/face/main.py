@@ -10,6 +10,7 @@ from .face_py import align_dataset_mtcnn
 import sys
 import cv2
 import math
+import collections
 class Face():
     def __init__(self) :
         classifier_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)),'classifier.pkl')
@@ -63,14 +64,19 @@ class Face():
         predictions = self.models.predict_proba(emb_array)
         best_class_indices = np.argmax(predictions, axis=1)
 
-        best_class_probabilities = predictions[np.arange(len(best_class_indices)), best_class_indices]
+        #best_class_probabilities = predictions[np.arange(len(best_class_indices)), best_class_indices]
         bounding_tmp = []
         for i in range(len(bounding_boxes)):
             bounding_tmp.append([bounding_boxes[i][0],bounding_boxes[i][1],bounding_boxes[i][2]-bounding_boxes[i][0],bounding_boxes[i][3]-bounding_boxes[i][1]])
+        tmp = predictions.copy()
         for i in range(len(best_class_indices)) :
-            if (best_class_probabilities[i] > 0.02):
-                dic = {self.class_names[best_class_indices[i]]:best_class_probabilities[i]}
-                result_tmp = [bounding_tmp[i],dic]
-                result.append(result_tmp)
-        print (result)
+            tmp[i].sort()
+            mklist = tmp[i][::-1]
+            #if (best_class_probabilities[i] > 0.02):
+            #    dic = {self.class_names[best_class_indices[i]]:best_class_probabilities[i]}
+            #    result_tmp = [bounding_tmp[i],dic]
+            #    result.append(result_tmp)
+            dic={self.class_names[list(predictions[i]).index(mklist[0])]:mklist[0],self.class_names[list(predictions[i]).index(mklist[1])]:mklist[1],self.class_names[list(predictions[i]).index(mklist[2])]:mklist[2],self.class_names[list(predictions[i]).index(mklist[3])]:mklist[3],self.class_names[list(predictions[i]).index(mklist[4])]:mklist[4]}
+            result_tmp = [bounding_tmp[i],dic]
+            result.append(result_tmp)
         return result
