@@ -18,6 +18,7 @@ RUN pip install \
 	djangorestframework \
 	requests \
 	Pillow \
+	kombu==4.1.0 \
 	celery==4.1.0
 
 EXPOSE 8000
