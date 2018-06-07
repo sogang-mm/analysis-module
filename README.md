@@ -111,13 +111,27 @@ def analyzer_by_path(image_path):
 
 
 
-## 실행하기
-### Django Initialize
-해당 프로그램을 실행하기 위해서는 Django에서 Database를 초기화해야 한다.
-이 작업은 맨 처음 및 Django의 Model 구조 변화 시 필요하다.
+## Database 설정하기
+
+### 만들기
+
+Django 내에서 설정한 model 구조를 반영한다.
+
 ```bash
 sh initailize_server.sh
 ```
+
+### 수정하기
+
+이 과정은 Django 내의 model 구조가 바뀔 때 마다 다시 만들어주어야 한다.
+```bash
+sudo rm db.sqlite3
+sh initailize_server.sh
+```
+
+
+
+## 실행하기
 
 ### Web Start
 전체 프로그램을 실행하는 것은 다음과 같이 입력한다.
