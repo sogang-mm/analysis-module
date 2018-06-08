@@ -5,12 +5,12 @@ import numpy as np
 import scipy.io as sio
 import os, sys, cv2
 import argparse
+import selective_search
+from nms import nms
 import __init__paths
 from fast_rcnn.config import cfg
 import caffe
-import selective_search
 from fast_rcnn.test_xybb import im_detect
-from utils.nms import nms
 from utils.timer import Timer
 from fast_rcnn.bbox_transform import bbox_voting
 from datasets import ds_utils
@@ -21,8 +21,9 @@ class vis_det:
         #   - initialize and load model here
 	self.CLASSES = ('__background__',)
 	self.WIND = (0,)
-	self.classes = sio.loadmat(os.path.join(cfg.ROOT_DIR,'meta_det.mat'))
-	self.synsets = sio.loadmat(os.path.join(cfg.ROOT_DIR,'meta_det.mat'))
+	
+	self.classes = sio.loadmat(os.path.join(os.path.dirname(os.path.realpath(__file__)) +'/meta_det.mat'))
+	self.synsets = sio.loadmat(os.path.join(os.path.dirname(os.path.realpath(__file__)) +'/meta_det.mat'))
 	for i in xrange(200):
 		self.CLASSES = self.CLASSES + (self.synsets['synsets'][0][i][2][0],)
 		self.WIND = self.WIND + (self.synsets['synsets'][0][i][1][0],)
