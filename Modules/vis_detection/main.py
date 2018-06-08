@@ -7,8 +7,8 @@ import os, sys, cv2
 import argparse
 import selective_search
 from nms import nms
+from config import cfg
 import __init__paths
-from fast_rcnn.config import cfg
 import caffe
 from fast_rcnn.test_xybb import im_detect
 from utils.timer import Timer
@@ -30,8 +30,8 @@ class vis_det:
 	self.NETS = {'resnet269': ('ResNet-GBD',
                   'ResNet-269-GBD_iter_180000.caffemodel')}
 	
-    	self.prototxt = os.path.join(cfg.ROOT_DIR,'..', 'ResNet-GBD', 'deploy_ResNet269_GBD.prototxt')
-    	self.caffemodel = os.path.join(cfg.ROOT_DIR,'..', 'ResNet-GBD', 'models', self.NETS['resnet269'][1])
+    	self.prototxt = os.path.join(cfg.ROOT_DIR,'craftGBD', 'ResNet-GBD', 'deploy_ResNet269_GBD.prototxt')
+    	self.caffemodel = os.path.join(cfg.ROOT_DIR,'craftGBD', 'ResNet-GBD', 'models', self.NETS['resnet269'][1])
     
 	if not os.path.isfile(self.caffemodel):
         	raise IOError(('{:s} not found.\nDid you run ./data/scripts/'
@@ -42,9 +42,9 @@ class vis_det:
 
 	self.net = caffe.Net(self.prototxt, self.caffemodel, caffe.TEST)
 
-	with open(os.path.join(cfg.ROOT_DIR,'..','evaluation','bbox_means.pkl'), 'rb') as f:
+	with open(os.path.join(cfg.ROOT_DIR,'craftGBD','evaluation','bbox_means.pkl'), 'rb') as f:
         	self.bbox_means = cPickle.load(f)
-	with open(os.path.join(cfg.ROOT_DIR,'..','evaluation','bbox_stds.pkl'), 'rb') as f:
+	with open(os.path.join(cfg.ROOT_DIR,'craftGBD','evaluation','bbox_stds.pkl'), 'rb') as f:
         	self.bbox_stds = cPickle.load(f)
 
     	self.net.params['bbox_pred_finetune'][0].data[...] = \
