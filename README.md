@@ -100,6 +100,26 @@ def module_load_init(**__):
 ```
 TODO 부분에 본인이 앞에서 추가한 Class를 하나씩 불러온다
 
+### 추가 설정하기
+
+실행 시 Load하는 Module의 수를 조절해아 할 필요성이 있다. 이 때는 AnalysisModule 폴더의 config.py를 수정한다.
+```python
+TOTAL_NUMBER_OF_MODULES = 2
+
+WORKER_MIN_SCALER = TOTAL_NUMBER_OF_MODULES
+WORKER_MAX_SCALER = TOTAL_NUMBER_OF_MODULES
+WORKER_CONCURRENCY = (WORKER_MIN_SCALER + WORKER_MAX_SCALER) // 2
+
+DATABASE_AUTO_DELETE_HOUR = 4 + 15      # UTC To Asia/Seoul
+DATABASE_AUTO_DELETE_MINUTE = 00
+DATABASE_AUTO_DELETE_DAY_OF_WEEK = 0    # 0: Sunday - 6: Saturday
+DATABASE_AUTO_DELETE_BEFORE_DAYS = 7
+```
+
+TOTAL_NUMBER_OF_MODULES는 기본적으로 2로 설정되어 있으며, 이는 Load하는 모듈의 수가 2개 임을 나타낸다. 따라서 본인의 GPU 환경에 맞추어 이 수를 조절하고자 한다면 이 변수의 수를 조절하면 된다.
+
+
+
 #### Module 실행하기
 ```python
 @app.task

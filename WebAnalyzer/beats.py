@@ -20,7 +20,7 @@ def delete_old_database(days=0):
     # Delete Image Folder
     date_point_dir = str(filter(str.isdigit, date_point.isoformat()))
     for old_image_dir in os.listdir(MEDIA_ROOT):
-        if old_image_dir <= date_point_dir:
+        if old_image_dir < date_point_dir:
             shutil.rmtree(os.path.join(MEDIA_ROOT, old_image_dir))
 
     print("====================")
