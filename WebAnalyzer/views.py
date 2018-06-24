@@ -15,4 +15,7 @@ class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = ImageSerializer
 
     def get_queryset(self):
-        return self.queryset.order_by('-token')[:VIEWSET_NUMBER]
+        view_queryset = self.queryset.order_by('-token')
+        if view_queryset.count() < VIEWSET_NUMBER:
+            return view_queryset
+        return view_queryset[:VIEWSET_NUMBER].reverse()
