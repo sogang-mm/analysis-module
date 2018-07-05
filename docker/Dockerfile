@@ -9,8 +9,8 @@ RUN pip install --upgrade pip
 RUN pip install setuptools
 
 WORKDIR /workspace
-RUN git clone https://github.com/sogang-mm/AnalysisModule.git
-WORKDIR /workspace/AnalysisModule
+RUN git clone https://github.com/sogang-mm/Analysis-Module.git
+WORKDIR /workspace/Analysis-Module
 RUN pip install -r requirements.txt
 
 COPY entrypoint.sh /entrypoint.sh
