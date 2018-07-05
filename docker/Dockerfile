@@ -9,7 +9,7 @@ RUN pip install --upgrade pip
 RUN pip install setuptools
 
 WORKDIR /workspace
-RUN git clone https://github.com/kwangsooshin/AnalysisModule.git
+RUN git clone https://github.com/sogang-mm/AnalysisModule.git
 WORKDIR /workspace/AnalysisModule
 RUN pip install -r requirements.txt
 
