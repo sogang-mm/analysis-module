@@ -59,7 +59,7 @@ Docker Compose를 사용하기 위해서는 다음을 필요로 한다.
     ```
     * 본인의 git repository로 주소를 수정한다. 
     ```dockerfile
-    RUN git clone https://github.com/sogang-mm/AnalysisModule.git
+    RUN git clone https://github.com/sogang-mm/Analysis-Module.git 
     ```
         
 2. .env

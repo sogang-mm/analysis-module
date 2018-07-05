@@ -1,1 +1,1 @@
-celery -A AnalysisSite worker -B -l info
+celery -A AnalysisModule worker -B -l info
