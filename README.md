@@ -75,6 +75,8 @@ Docker Compose를 사용하기 위해서는 다음을 필요로 한다.
 
 모든 설정이 끝났다면 docker 디렉토리 내에서 docker-compose up으로 실행하면 웹 서버가 시작된다.
 
+http://localhost:8000/ 또는 구성한 서버의 IP 및 Domain으로 접근하여 접속이 되는지 확인한다.
+
 웹 서버가 실행된 것을 확인하였으면 Module 추가를 위해 web container에 /bin/bash로 접근하여 일단 웹 서버를 종료한다.
 
 ```bash

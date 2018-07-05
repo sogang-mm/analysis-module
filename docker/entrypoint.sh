@@ -3,7 +3,7 @@ set -e
 
 sh run_migration.sh
 python -c "import os
-os.environ['DJANGO_SETTINGS_MODULE'] = 'AnalysisSite.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'AnalysisModule.settings'
 import django
 django.setup()
 from django.contrib.auth.management.commands.createsuperuser import get_user_model
