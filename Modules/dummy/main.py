@@ -4,7 +4,7 @@ from Modules.dummy.example import test
 class Dummy:
     model = None
     result = None
-    path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    path = os.path.dirname(os.path.abspath(__file__))
 
     def __init__(self):
         # TODO
