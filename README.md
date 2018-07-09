@@ -1,6 +1,7 @@
 # Analysis Module
 
 - [Introduce](#introduce)
+- [Prerequisites](#prerequisites)
 - [Installation](#installation)
     - [From Source](#from-source)
     - [Docker Compose](#docker-compose)
@@ -17,9 +18,16 @@
 
 Python 코드로 구성되어 있으며, Django 및 Django REST framework를 사용하여 개발하였습니다.
 
-본 프로젝트는 [Analysis Site](https://github.com/sogang-mm/Analysis-Site)와 함께 설치하기를 추천합니다.
+본 프로젝트는 [Analysis Site](https://github.com/sogang-mm/analysis-site)와 함께 설치하기를 추천합니다.
 
 Linux 사용을 가정하여 코드를 작성하였으며, 만약 다른 환경에서의 설치를 진행하려면 문의하시기 바랍니다.
+
+
+## Prerequisites
+
+- Linux
+- Python 2.7, 3.4, 3.5, or 3.6
+- And so on
 
 
 ## Installation
@@ -59,7 +67,8 @@ Docker Compose를 사용하기 위해서는 다음을 필요로 한다.
     ```
     * 본인의 git repository로 주소를 수정한다. 
     ```dockerfile
-    RUN git clone https://github.com/sogang-mm/Analysis-Module.git 
+    RUN git clone https://github.com/sogang-mm/analysis-module.git
+    WORKDIR /workspace/analysis-module
     ```
         
 2. .env
