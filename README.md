@@ -25,7 +25,7 @@ Linux 사용을 가정하여 코드를 작성하였으며, 만약 다른 환경�
 
 ## Prerequisites
 
-- Linux
+- Linux Based OS
 - Python 2.7, 3.4, 3.5, or 3.6
 - And so on
 
@@ -58,21 +58,16 @@ Docker Compose를 사용하기 위해서는 다음을 필요로 한다.
 - [Docker](https://docs.docker.com/) & [Docker compose](https://docs.docker.com/compose/)
 - [NVIDIA Container Runtime for Docker](https://github.com/NVIDIA/nvidia-docker)
 
-이후, docker 디렉토리 내 파일에서 다음과 같은 부분을 수정한다.
+이후, 디렉토리 내에서 다음과 같은 부분을 수정한다.
 
 1. Dockerfile
     * 본인이 사용할 Deep learning framework가 담긴 Docker image로 수정한다.
     ```dockerfile
     FROM ubuntu:16.04
     ```
-    * 본인의 git repository로 주소를 수정한다. 
-    ```dockerfile
-    RUN git clone https://github.com/sogang-mm/analysis-module.git
-    WORKDIR /workspace/analysis-module
-    ```
         
 2. .env
-    * Docker로 여러 Module 을 올리고자 한다면 다음을 수정한다.
+    * Docker로 여러 Module을 올리고자 한다면 다음을 수정한다.
     ```text
     COMPOSE_PROJECT_NAME=analysis-module
     WEB_CONTAINER_NAME=module

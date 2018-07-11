@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+cd /workspace
 sh run_migration.sh
 python -c "import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'AnalysisModule.settings'
@@ -13,6 +14,6 @@ sh server_start.sh
 tail -f celery.log -f django.log
 
 trap 'sh server_shutdown.sh' SIGTERM
-while true; do :; done
+/bin/bash
 
 exec "$@"
