@@ -9,11 +9,14 @@ RUN pip install --upgrade pip
 RUN pip install setuptools
 
 WORKDIR /workspace
-RUN git clone https://github.com/sogang-mm/analysis-module.git
-WORKDIR /workspace/analysis-module
+ADD . .
 RUN pip install -r requirements.txt
 
-COPY entrypoint.sh /entrypoint.sh
+ENV DJANGO_SUPERUSER_USERNAME root
+ENV DJANGO_SUPERUSER_EMAIL none@none.com
+ENV DJANGO_SUPERUSER_PASSWORD password
+
+COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 

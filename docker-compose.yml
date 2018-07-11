@@ -14,8 +14,8 @@ services:
     depends_on:
       - rabbitmq
     env_file:
-      - "./env_files/django.env"
-      - "./env_files/rabbitmq.env"
+      - "./docker/django.env"
+      - "./docker/rabbitmq.env"
     ports:
       - "${WEB_EXTERNAL_PORT}:8000"
     stdin_open: true
@@ -25,7 +25,7 @@ services:
     image: rabbitmq:latest
     restart: always
     env_file:
-      - "./env_files/rabbitmq.env"
+      - "./docker/rabbitmq.env"
     expose:
       - "5672"
       - "15672"
