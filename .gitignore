@@ -3,7 +3,7 @@
 .SECRET_KEY
 */migrations/[0-9]*_*.py
 db.sqlite3
-media/*
+media/
 
 
 ### Python template

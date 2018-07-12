@@ -14,6 +14,6 @@ sh server_start.sh
 tail -f celery.log -f django.log
 
 trap 'sh server_shutdown.sh' SIGTERM
-/bin/bash
+/usr/bin/env bash
 
 exec "$@"
