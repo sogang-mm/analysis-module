@@ -32,13 +32,18 @@ class vis_det:
 	cfg_from_file(os.path.join(os.path.dirname(os.path.realpath(__file__))+'/ilsvrc_mscale_1000.yml'))
     	self.prototxt = os.path.join(cfg.ROOT_DIR,'..', 'ResNet-GBD', 'deploy_ResNet269_GBD.prototxt')
     	self.caffemodel = os.path.join(cfg.ROOT_DIR,'..', 'ResNet-GBD', 'models', self.NETS['resnet269'][1])
+	#self.NETS = {'bn': ('BN',
+        #          'BN_GBD_iter_120000.caffemodel')}
+	#cfg_from_file(os.path.join(os.path.dirname(os.path.realpath(__file__))+'/ilsvrc_700.yml'))
+    	#self.prototxt = os.path.join(cfg.ROOT_DIR,'..', 'BN_1k', 'deploy_GBD.prototxt')
+    	#self.caffemodel = os.path.join(cfg.ROOT_DIR,'..', 'BN_1k', 'models', self.NETS['bn'][1])
     
 	if not os.path.isfile(self.caffemodel):
         	raise IOError(('{:s} not found.\nDid you run ./data/scripts/'
                        'fetch_fast_rcnn_models.sh?').format(self.caffemodel))
 
 	caffe.set_mode_gpu()
-	caffe.set_device(0)
+	caffe.set_device(1)
 
 	self.net = caffe.Net(self.prototxt, self.caffemodel, caffe.TEST)
 
@@ -51,6 +56,10 @@ class vis_det:
             self.net.params['bbox_pred_finetune'][0].data * self.bbox_stds[:, np.newaxis]
     	self.net.params['bbox_pred_finetune'][1].data[...] = \
             self.net.params['bbox_pred_finetune'][1].data * self.bbox_stds + self.bbox_means
+    	#self.net.params['bbox_pred'][0].data[...] = \
+        #    self.net.params['bbox_pred'][0].data * self.bbox_stds[:, np.newaxis]
+    	#self.net.params['bbox_pred'][1].data[...] = \
+        #    self.net.params['bbox_pred'][1].data * self.bbox_stds + self.bbox_means
 
 	print ("model loaded")
         self.result = None
@@ -71,15 +80,20 @@ class vis_det:
     	boxes = boxes[keep, :]
     	keep = ds_utils.filter_small_boxes(boxes, 50)
     	boxes = boxes[keep, :]
-    	boxes = boxes[:300, :]
+	boxes = boxes[:300,:]
     	num_boxes = boxes.shape[0]
+	num_batch = 2
+	#if num_boxes > 2000:
+	#	boxes = boxes[:2000, :]
+    	#	num_boxes = boxes.shape[0]
+	#num_batch = (num_boxes+150-1)/150
     
-    	scores_batch = np.zeros((300, 201), dtype=np.float32)
-    	boxes_batch = np.zeros((300, 4*201), dtype=np.float32)
-    	rois = np.tile(boxes[0, :], (300, 1))
+    	scores_batch = np.zeros((num_batch*150, 201), dtype=np.float32)
+    	boxes_batch = np.zeros((num_batch*150, 4*201), dtype=np.float32)
+    	rois = np.tile(boxes[0, :], (num_batch*150, 1))
     	rois[:num_boxes, :] = boxes
 
-    	for j in xrange(2):
+    	for j in xrange(int(num_batch)):
         	roi = rois[j*150:(j+1)*150, :]
         	score, box = im_detect(self.net, im, roi,0,0)
         	scores_batch[j*150:(j+1)*150, :] = score# [:,:,0,0]

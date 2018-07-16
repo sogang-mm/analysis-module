@@ -45,6 +45,7 @@ class ResultPositionModel(models.Model):
     y = models.FloatField(null=True, unique=False)
     w = models.FloatField(null=True, unique=False)
     h = models.FloatField(null=True, unique=False)
+
     class Meta:
         ordering = ['x', 'y', 'w', 'h']
 
@@ -53,5 +54,6 @@ class ResultLabelModel(models.Model):
     result_detail_model = models.ForeignKey(ResultModel, related_name='label', on_delete=models.CASCADE)
     description = models.TextField(null=True, unique=False)
     score = models.FloatField(null=True, unique=False)
+
     class Meta:
         ordering = ['-score']
