@@ -177,26 +177,19 @@ sh server_initialize.sh
 sh run_migration.sh
 ```
 
-## Run Web Server
+### Web Shutdown
+전체 프로그램을 종료하는 것은 다음과 같이 입력한다.
+```bash
+sh shutdown_server.sh
+```
 
-* Web Server를 실행하고자 한다면 server_start.sh를 실행한다.
-    ```bash
-    sh server_start.sh
-    ```
-    이후 http://localhost:8000/ 또는 구성한 서버의 IP 및 Domain으로 접근하여 접속한다.
 
-* 만약 접속 시 문제가 있어 실행 Log를 보고자 할 때는 다음과 같이 실행하여 확인한다.
-    * Web Server에 문제가 있어 Django 부분만 실행하고자 한다면 run_django.sh를 실행한다.
-        ```bash
-        sh run_django.sh
-        ```
-    
-    * Web Server는 실행되나 분석 결과가 나오지 않아 Module 부분만 실행하고자 한다면 run_celery.sh를 실행한다.
-        ```bash
-        sh run_celery.sh
-        ```
-    
-* Web Server를 종료하고자 한다면 server_shutdown.sh를 실행한다.
-    ```bash
-    sh server_shutdown.sh
-    ``` 
+### Library Install
+```bash
+pip install tensorflow-gpu==1.3
+pip install scikit-learn
+pip install opencv-python
+apt-get install libgtk2.0-dev
+pip install cmake
+pip install dlib
+```
