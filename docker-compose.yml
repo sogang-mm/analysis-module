@@ -1,0 +1,31 @@
+version: '2.3'
+
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    runtime: nvidia
+    image: "${COMPOSE_PROJECT_NAME}"
+    container_name: "${WEB_CONTAINER_NAME}"
+    restart: always
+    links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+    env_file:
+      - ".env.django"
+      - ".env.rabbitmq"
+    ports:
+      - "${WEB_EXTERNAL_PORT}:8000"
+    stdin_open: true
+    tty: true
+
+  rabbitmq:
+    image: rabbitmq:latest
+    restart: always
+    env_file:
+      - ".env.rabbitmq"
+    expose:
+      - "5672"
+      - "15672"

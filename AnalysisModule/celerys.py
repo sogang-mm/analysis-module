@@ -6,8 +6,24 @@ from AnalysisModule import config
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AnalysisModule.settings')
 
 app = Celery('AnalysisModule')
+
+
+if 'RABBITMQ_DEFAULT_USER' in os.environ:
+    app.conf.update(
+        broker_url='amqp://{user}:{password}@{address}'.format(
+                    user=os.environ['RABBITMQ_DEFAULT_USER'],
+                    password=os.environ['RABBITMQ_DEFAULT_PASS'],
+                    address=os.environ.get('RABBITMQ_PORT_5672_TCP_ADDR', 'rabbitmq'))
+    )
+
+else:
+    app.conf.update(
+        broker_url='amqp://localhost',
+    )
+
+
 app.conf.update(
-    broker_url='amqp://localhost',
+    # broker_url='amqp://localhost',
     result_backend='amqp://localhost',
     timezone='UTC',
     enable_utc=True,
