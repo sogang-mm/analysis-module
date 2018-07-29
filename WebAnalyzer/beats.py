@@ -8,6 +8,9 @@ from WebAnalyzer import models
 
 @app.task
 def delete_old_database(days=0):
+    if not os.path.exists(MEDIA_ROOT):
+        return 0
+    
     date_today = datetime.date.today()
     date_delta = datetime.timedelta(days)
     date_point = date_today - date_delta
