@@ -20,7 +20,15 @@ from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls.static import static
 
+from rest_framework.routers import DefaultRouter
+import WebAnalyzer.views
+
+router = DefaultRouter()
+
+router.register(r'', WebAnalyzer.views.ImageViewSet)
+
+
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^', include('WebAnalyzer.urls')),
+    url(r'^analyzer/', include(router.urls)),   # Backward Compatibility
+    url(r'^', include(router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
