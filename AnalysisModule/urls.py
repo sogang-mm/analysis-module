@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 import WebAnalyzer.views
 
+
 router = DefaultRouter()
 
 router.register(r'', WebAnalyzer.views.ImageViewSet)
