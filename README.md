@@ -1,9 +1,10 @@
 # Analysis Module
 
 - [Introduce](#introduce)
-- [Prerequisites](#prerequisites)
+- [Prerequisites](#initial-settings)
 - [Installation](#installation)
-    - [From Source](#from-source)
+    - [Prerequisities](#prerequisities)
+    - [Object Detection](#object-detection)
 - [Run Web Server](#run-web-server)
     
 ## Introduce
@@ -11,7 +12,7 @@
 본 프로젝트는 객체 검출 모듈을 수행하여 입력 이미지에 등장하는 객체의 신뢰도와 좌표를 출력합니다.
 
 
-## Prerequisites
+## Initial Settings
 
 - Linux Based OS
 - Python 2.7, 3.4, 3.5, or 3.6
@@ -20,7 +21,7 @@
 
 ## Installation
 
-### From Source
+### Prerequisites
 
 실행에 필요한 service를 설치한다.
 ```bash
@@ -38,8 +39,10 @@ pip install -r requirements.txt
 pip install --upgrade pip
 pip install setuptools
 ```
-### From Source
-객체 검출 모델은 [CraftGBD](https://github.com/craftGBD/craftGBD)의 설치 과정을 수행한다.
+### Object Detection
+
+객체 검출 모델의 설치 과정은 [CraftGBD](https://github.com/craftGBD/craftGBD)의 설치 과정과 동일하다.
+
 
 ## Run Web Server
 
