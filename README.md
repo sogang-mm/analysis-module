@@ -1,7 +1,7 @@
 # Analysis Module
 
 - [Introduce](#introduce)
-- [Prerequisites](#initial-settings)
+- [Initial Settings](#initial-settings)
 - [Installation](#installation)
     - [Prerequisities](#prerequisities)
     - [Object Detection](#object-detection)
