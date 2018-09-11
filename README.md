@@ -8,7 +8,7 @@
     
 ## Introduce
 
-본 프로젝트는 객체 검출 모듈을 수행하여 입력 이미지에 대한 객체의 신뢰도와 좌표를 출력합니다.
+본 프로젝트는 객체 검출 모듈을 수행하여 입력 이미지에 등장하는 객체의 신뢰도와 좌표를 출력합니다.
 
 
 ## Prerequisites
@@ -38,6 +38,8 @@ pip install -r requirements.txt
 pip install --upgrade pip
 pip install setuptools
 ```
+### From Source
+객체 검출 모델은 [CraftGBD](https://github.com/craftGBD/craftGBD)의 설치 과정을 수행한다.
 
 ## Run Web Server
 
