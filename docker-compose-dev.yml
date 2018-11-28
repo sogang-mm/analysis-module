@@ -1,0 +1,14 @@
+version: '2.3'
+
+services:
+  main.dev:
+    extends:
+      file: docker-compose.yml
+      service: main
+    volumes:
+      - ".:."
+
+  rabbitmq.dev:
+    extends:
+      file: docker-compose.yml
+      service: rabbitmq
