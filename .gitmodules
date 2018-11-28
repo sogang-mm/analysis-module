@@ -1,0 +1,3 @@
+[submodule "craftGBD"]
+	path = craftGBD
+	url = https://github.com/craftGBD/craftGBD.git
