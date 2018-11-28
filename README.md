@@ -65,23 +65,27 @@ Docker Compose를 사용하기 위해서는 다음을 필요로 한다.
     ```dockerfile
     FROM ubuntu:16.04
     ```
-        
-2. .env
-    * Docker로 여러 Module을 올리고자 한다면 다음을 수정한다.
+
+2. docker-compose.yml
+    * Module의 외부 통신을 위한 Port 수정이 필요하다면 다음을 수정한다.
+    ```docker
+    ports:
+      - "8001:8000"
+    ```
+    * 앞의 8001번을 원하는 포트로 수정한다. 예를 들어 8002번 포트로 접속하기 원한다면 "8002:8000"로 수정한다.
+
+3. docker-compose-env/main.env
+    * 특정 GPU만 사용하는 환경을 구성하고 싶다면 다음을 수정한다.
     ```text
-    COMPOSE_PROJECT_NAME=analysis-module
-    WEB_CONTAINER_NAME=module
-    WEB_EXTERNAL_PORT=8000
+    NVIDIA_VISIBLE_DEVICES=all
     ```    
-    * COMPOSE_PROJECT_NAME은 Dockerfile에서 build한 image의 이름으로 설정된다.
-    * WEB_CONTAINER_NAME은 Dockerfile에서 build한 image의 container의 이름으로 설정된다.
-    * WEB_EXTERNAL_PORT는 웹 서버의 외부 통신을 위한 PORT로 설정된다.
+    * all을 사용 시, 전체 GPU를 사용한다. 만약 0번 GPU만을 사용하고 싶다면 NVIDIA_VISIBLE_DEVICES=0으로 수정한다.
 
 모든 설정이 끝났다면 docker 디렉토리 내에서 docker-compose up으로 실행하면 웹 서버가 시작된다.
 
-http://localhost:8000/ 또는 구성한 서버의 IP 및 Domain으로 접근하여 접속이 되는지 확인한다.
+http://localhost:8001/ 또는 구성한 서버의 IP 및 Domain으로 접근하여 접속이 되는지 확인한다.
 
-웹 서버가 실행된 것을 확인하였으면 Module 추가를 위해 web container에 /bin/bash로 접근하여 일단 웹 서버를 종료한다.
+웹 서버가 실행된 것을 확인하였으면 Module 추가를 위해 main container에 /bin/bash로 접근하여 일단 웹 서버를 종료한다.
 
 ```bash
 sh server_shutdown.sh
@@ -158,6 +162,11 @@ sh server_shutdown.sh
 
 실행 시에 필요한 다양한 Setting을 변경하고 싶다면 AnalysisModule 디렉토리의 config.py를 수정한다.
 
+* 개발모드 해제하기
+```python
+DEBUG = False
+```
+
 * 불러오는 Module 수 조절하기
 ```python
 TOTAL_NUMBER_OF_MODULES = 2
@@ -183,7 +192,7 @@ sh run_migration.sh
     ```bash
     sh server_start.sh
     ```
-    이후 http://localhost:8000/ 또는 구성한 서버의 IP 및 Domain으로 접근하여 접속한다.
+    이후 http://localhost:8001/ 또는 구성한 서버의 IP 및 Domain으로 접근하여 접속한다.
 
 * 만약 접속 시 문제가 있어 실행 Log를 보고자 할 때는 다음과 같이 실행하여 확인한다.
     * Web Server에 문제가 있어 Django 부분만 실행하고자 한다면 run_django.sh를 실행한다.
