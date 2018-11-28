@@ -17,14 +17,11 @@ def model_load_info(**__):
 def module_load_init(**__):
     global analyzer
 
-    worker_index = 0
-
     if not DEBUG:
         worker_index = current_process().index
-
-    print("====================")
-    print(" Worker Id: {0}".format(worker_index))
-    print("====================")
+        print("====================")
+        print(" Worker Id: {0}".format(worker_index))
+        print("====================")
 
     # TODO:
     #   - Add your model
