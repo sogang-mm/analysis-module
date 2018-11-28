@@ -6,7 +6,7 @@ services:
       file: docker-compose.yml
       service: main
     volumes:
-      - ".:."
+      - .:.
 
   rabbitmq.dev:
     extends:
