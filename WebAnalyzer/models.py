@@ -5,6 +5,7 @@ from django.db import models
 
 # Create your models here.
 from rest_framework import exceptions
+from AnalysisModule.config import DEBUG
 from WebAnalyzer.tasks import analyzer_by_path
 from WebAnalyzer.utils import filename
 import ast
@@ -18,7 +19,12 @@ class ImageModel(models.Model):
 
     def save(self, *args, **kwargs):
         super(ImageModel, self).save(*args, **kwargs)
-        task_get = ast.literal_eval(str(analyzer_by_path.delay(self.image.path).get()))
+
+        if DEBUG:
+            task_get = ast.literal_eval(str(analyzer_by_path(self.image.path)))
+        else:
+            task_get = ast.literal_eval(str(analyzer_by_path.delay(self.image.path).get()))
+
         for result in task_get:
             self.result.create(values=result)
         super(ImageModel, self).save()
@@ -29,8 +35,11 @@ class ResultModel(models.Model):
     values = models.TextField()
 
     def save(self, *args, **kwargs):
-        if not (isinstance(self.values[0], list) and isinstance(self.values[1], dict)):
-            raise exceptions.ValidationError("Module return value Error. Please contact the administrator")
+        if not (isinstance(self.values[0], list) or isinstance(self.values[0], tuple)):
+            raise exceptions.ValidationError("Module return values(0) Error. Please contact the administrator")
+        if not (isinstance(self.values[1], dict)):
+            raise exceptions.ValidationError("Module return values(1) Error. Please contact the administrator")
+
         super(ResultModel, self).save(*args, **kwargs)
         x, y, w, h = self.values[0]
         ResultPositionModel.objects.create(result_detail_model=self, x=x, y=y, w=w, h=h)

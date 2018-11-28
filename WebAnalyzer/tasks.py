@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+from AnalysisModule.config import DEBUG
 from AnalysisModule.celerys import app
 from celery.signals import worker_init, worker_process_init
 from billiard import current_process
@@ -15,7 +16,11 @@ def model_load_info(**__):
 @worker_process_init.connect
 def module_load_init(**__):
     global analyzer
-    worker_index = current_process().index
+
+    worker_index = 0
+
+    if not DEBUG:
+        worker_index = current_process().index
 
     print("====================")
     print(" Worker Id: {0}".format(worker_index))
@@ -33,3 +38,11 @@ def module_load_init(**__):
 def analyzer_by_path(image_path):
     result = analyzer.inference_by_path(image_path)
     return result
+
+
+# For development version
+if DEBUG:
+    print("====================")
+    print("Development")
+    print("====================")
+    module_load_init()
