@@ -405,7 +405,6 @@ def load_model(model):
             graph_def = tf.GraphDef()
             graph_def.ParseFromString(f.read())
             sess = tf.import_graph_def(graph_def, name='')
-            return sess
     else:
         print('Model directory: %s' % model_exp)
         meta_file, ckpt_file = get_model_filenames(model_exp)
@@ -415,7 +414,6 @@ def load_model(model):
 
         saver = tf.train.import_meta_graph(os.path.join(model_exp, meta_file))
         saver.restore(tf.get_default_session(), os.path.join(model_exp, ckpt_file))
-        return sess
 
 def get_model_filenames(model_dir):
     files = os.listdir(model_dir)
