@@ -1,29 +1,17 @@
 # Analysis Module
 
 - [Introduce](#introduce)
-- [Prerequisites](#prerequisites)
+- [Initial Settings](#initial-settings)
 - [Installation](#installation)
-    - [From Source](#from-source)
-    - [Docker Compose](#docker-compose)
-- [Setting Module](#setting-module)
-    - [Configure Module Class](#configure-module-class)
-    - [Modify Tasks](#modify-tasks)
-    - [Additional Settings](#additional-settings)
-- [Setting Database](#setting-database)
+    - [Prerequisities](#prerequisities)
+    - [Object Detection](#object-detection)
 - [Run Web Server](#run-web-server)
     
 ## Introduce
 
-본 프로젝트는 Neural Network의 결과를 REST API로 서비스 하기 위한 웹 서버를 제공합니다.
+본 프로젝트는 객체 검출 모듈을 수행하여 입력 이미지에 등장하는 객체의 신뢰도와 좌표를 리턴한다.
 
-Python 코드로 구성되어 있으며, Django 및 Django REST framework를 사용하여 개발하였습니다.
-
-본 프로젝트는 [Analysis Site](https://github.com/sogang-mm/analysis-site)와 함께 설치하기를 추천합니다.
-
-Linux 사용을 가정하여 코드를 작성하였으며, 만약 다른 환경에서의 설치를 진행하려면 문의하시기 바랍니다.
-
-
-## Prerequisites
+## Initial Settings
 
 - Linux Based OS
 - Python 2.7, 3.4, 3.5, or 3.6
@@ -32,7 +20,7 @@ Linux 사용을 가정하여 코드를 작성하였으며, 만약 다른 환경�
 
 ## Installation
 
-### From Source
+### Prerequisities
 
 실행에 필요한 service를 설치한다.
 ```bash
@@ -185,6 +173,11 @@ sudo rm db.sqlite3
 sh server_initialize.sh
 sh run_migration.sh
 ```
+### Object Detection
+
+객체 검출 모델의 설치는 [Faster R-CNN](https://github.com/rbgirshick/py-faster-rcnn)의 설치 과정과 동일하다.
+
+
 
 ## Run Web Server
 
