@@ -2,8 +2,8 @@ import os, hashlib, datetime
 
 
 def _get_directory():
-    _date_today = datetime.date.today().isoformat()
-    _directory = str(filter(str.isdigit, _date_today))
+    _date_today = datetime.date.today()
+    _directory = _date_today.strftime("%Y%m%d")
     return _directory
 
 

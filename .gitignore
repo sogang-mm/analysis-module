@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
 .SECRET_KEY
+celerybeat-schedule
 */migrations/[0-9]*_*.py
 db.sqlite3
 media/
