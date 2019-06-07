@@ -80,11 +80,30 @@ class DAFRCNN:
         checkpoint = torch.load(model_path)
         self.model = resnet(self.classes, 101, pretrained=False, class_agnostic=self.class_agnostic)
         self.model.create_architecture()
+        self.model.cuda()
         self.model.load_state_dict(checkpoint['model'])
-        self.model = torch.nn.DataParallel(self.model).cuda()
+        self.model = torch.nn.DataParallel(self.model)
         self.model.eval()
 
     def inference_by_path(self, image_path):
+        im_data = torch.FloatTensor(1)
+        im_info = torch.FloatTensor(1)
+        num_boxes = torch.LongTensor(1)
+        gt_boxes = torch.FloatTensor(1)
+
+        # ship to cuda
+        if self.cuda:
+            im_data = im_data.cuda()
+            im_info = im_info.cuda()
+            num_boxes = num_boxes.cuda()
+            gt_boxes = gt_boxes.cuda()
+
+        # make variable
+        im_data = Variable(im_data)
+        im_info = Variable(im_info)
+        num_boxes = Variable(num_boxes)
+        gt_boxes = Variable(gt_boxes)
+
         result = []
         # TODO
         #   - Inference using image path
@@ -107,21 +126,27 @@ class DAFRCNN:
         im_data_pt = im_data_pt.permute(0, 3, 1, 2)
         im_info_pt = torch.from_numpy(im_info_np)
 
-        if self.cuda:
-            im_data = Variable(im_data_pt.cuda())
-            im_info = Variable(im_info_pt.cuda())
-            gt_boxes = Variable(torch.zeros([1,1,5]).cuda())
-            num_boxes = Variable(torch.zeros([1]).cuda())
-        else:
-            im_data = Variable(im_data_pt)
-            im_info = Variable(im_info_pt)
-            gt_boxes = Variable(torch.zeros([1,1,5]))
-            num_boxes = Variable(torch.zeros([1]))
+        # if self.cuda:
+        #     im_data = Variable(im_data_pt.cuda())
+        #     im_info = Variable(im_info_pt.cuda())
+        #     gt_boxes = Variable(torch.zeros([1,1,5]).cuda())
+        #     num_boxes = Variable(torch.zeros([1]).cuda())
+        # else:
+        #     im_data = Variable(im_data_pt)
+        #     im_info = Variable(im_info_pt)
+        #     gt_boxes = Variable(torch.zeros([1,1,5]))
+        #     num_boxes = Variable(torch.zeros([1]))
 
-        rois, cls_prob, bbox_pred, \
-        rpn_loss_cls, rpn_loss_box, \
-        RCNN_loss_cls, RCNN_loss_bbox, \
-        rois_label = self.model(im_data, im_info, gt_boxes, num_boxes)
+        im_data.data.resize_(im_data_pt.size()).copy_(im_data_pt)
+        im_info.data.resize_(im_info_pt.size()).copy_(im_info_pt)
+        gt_boxes.data.resize_(1, 1, 5).zero_()
+        num_boxes.data.resize_(1).zero_()
+
+        # rois, cls_prob, bbox_pred, \
+        # rpn_loss_cls, rpn_loss_box, \
+        # RCNN_loss_cls, RCNN_loss_bbox, \
+        # rois_label = self.model(im_data, im_info, gt_boxes, num_boxes)
+        rois, cls_prob, bbox_pred = self.model(im_data, im_info, gt_boxes, num_boxes)
 
         scores = cls_prob.data
         boxes = rois.data[:, :, 1:5]
