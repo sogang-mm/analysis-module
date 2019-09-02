@@ -1,12 +1,12 @@
 import pickle
 import os
 import dlib
-from .face_py import align_dlib
+import face_py.align_dlib
 import numpy as np
+import facenet
 import tensorflow as tf
-from .face_py import facenet
-from .face_py import detect_face
-from .face_py import align_dataset_mtcnn
+import face_py.detect_face
+import face_py.align_dataset_mtcnn
 import sys
 import cv2
 import math
@@ -14,7 +14,7 @@ import collections
 class Face():
     def __init__(self) :
         classifier_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)),'190827.pkl')
-
+#        classifier_filename = '/root/facenet/src/models/facenet/softtloss/20190827-070613/190827.pkl'
         with open(classifier_filename, 'rb') as infile:
             (self.models,self.class_names) = pickle.load(infile)
 
@@ -23,6 +23,7 @@ class Face():
             config.gpu_options.per_process_gpu_memory_fraction = 0.25
             self.sess_detect = tf.Session(config = config)
             model =os.path.join(os.path.dirname(os.path.realpath(__file__)),'20180402-190827.pb')
+#            model ='/root/facenet/src/models/facenet/softtloss/20190827-070613/190827.pb'
             facenet.load_model(model)
             self.images_placeholder = tf.get_default_graph().get_tensor_by_name("input:0")
             self.embeddings = tf.get_default_graph().get_tensor_by_name("embeddings:0")
@@ -31,12 +32,12 @@ class Face():
             gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.25)
             sess1 = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
             with sess1.as_default():
-                self.pnet, self.rnet, self.onet = detect_face.create_mtcnn(sess1, None)
+                self.pnet, self.rnet, self.onet = face_py.detect_face.create_mtcnn(sess1, None)
 
     def inference_by_path(self,image_path):
         result = []
         input_path = image_path
-        (bounding_boxes, images) = align_dataset_mtcnn.main(self.pnet,self.rnet,self.onet,input_path)
+        (bounding_boxes, images) = face_py.align_dataset_mtcnn.main(self.pnet,self.rnet,self.onet,input_path)
         if not bounding_boxes :
             return result
         batch_size = 20
@@ -80,3 +81,7 @@ class Face():
             result_tmp = [bounding_tmp[i],dic]
             result.append(result_tmp)
         return result
+#test
+# if __name__ == '__main__':
+#     face = Face()
+#     face.inference_by_path('/workspace/AnotherMissOh/video_frame/E1/AnotherMissOh.E01-Scene-0271-02.png')
