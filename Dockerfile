@@ -1,16 +1,17 @@
-FROM ubuntu:16.04
+FROM tensorflow/tensorflow:1.7.0-devel-gpu-py3
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-	   git wget python-pip apt-utils \
-	&& rm -rf /var/lib/apt/lists/*
+           git wget python3-pip apt-utils \
+           libgtk2.0-dev cmake \
+        && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip
-RUN pip install setuptools
+RUN pip3 install --upgrade pip
+RUN pip3 install setuptools
 
 WORKDIR /workspace
 ADD . .
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 ENV DJANGO_SUPERUSER_USERNAME root
 ENV DJANGO_SUPERUSER_EMAIL none@none.com

@@ -70,9 +70,9 @@ Docker Compose를 사용하기 위해서는 다음을 필요로 한다.
     * Module의 외부 통신을 위한 Port 수정이 필요하다면 다음을 수정한다.
     ```docker
     ports:
-      - "8000:8000"
+      - "8001:8000"
     ```
-    * 앞의 8000번을 원하는 포트로 수정한다. 예를 들어 8001번 포트로 접속하기 원한다면 "8001:8000"로 수정한다.
+    * 앞의 8001번을 원하는 포트로 수정한다. 예를 들어 8002번 포트로 접속하기 원한다면 "8002:8000"로 수정한다.
 
 3. docker-compose-env/main.env
     * 특정 GPU만 사용하는 환경을 구성하고 싶다면 다음을 수정한다.
@@ -83,7 +83,7 @@ Docker Compose를 사용하기 위해서는 다음을 필요로 한다.
 
 모든 설정이 끝났다면 docker 디렉토리 내에서 docker-compose up으로 실행하면 웹 서버가 시작된다.
 
-http://localhost:8000/ 또는 구성한 서버의 IP 및 Domain으로 접근하여 접속이 되는지 확인한다.
+http://localhost:8001/ 또는 구성한 서버의 IP 및 Domain으로 접근하여 접속이 되는지 확인한다.
 
 웹 서버가 실행된 것을 확인하였으면 Module 추가를 위해 main container에 /bin/bash로 접근하여 일단 웹 서버를 종료한다.
 
@@ -162,6 +162,11 @@ sh server_shutdown.sh
 
 실행 시에 필요한 다양한 Setting을 변경하고 싶다면 AnalysisModule 디렉토리의 config.py를 수정한다.
 
+* 개발모드 해제하기
+```python
+DEBUG = False
+```
+
 * 불러오는 Module 수 조절하기
 ```python
 TOTAL_NUMBER_OF_MODULES = 2
@@ -181,19 +186,26 @@ sh server_initialize.sh
 sh run_migration.sh
 ```
 
-### Web Shutdown
-전체 프로그램을 종료하는 것은 다음과 같이 입력한다.
-```bash
-sh shutdown_server.sh
-```
+## Run Web Server
 
+* Web Server를 실행하고자 한다면 server_start.sh를 실행한다.
+    ```bash
+    sh server_start.sh
+    ```
+    이후 http://localhost:8001/ 또는 구성한 서버의 IP 및 Domain으로 접근하여 접속한다.
 
-### Library Install
-```bash
-pip install tensorflow-gpu==1.3
-pip install scikit-learn
-pip install opencv-python
-apt-get install libgtk2.0-dev
-pip install cmake
-pip install dlib
-```
+* 만약 접속 시 문제가 있어 실행 Log를 보고자 할 때는 다음과 같이 실행하여 확인한다.
+    * Web Server에 문제가 있어 Django 부분만 실행하고자 한다면 run_django.sh를 실행한다.
+        ```bash
+        sh run_django.sh
+        ```
+    
+    * Web Server는 실행되나 분석 결과가 나오지 않아 Module 부분만 실행하고자 한다면 run_celery.sh를 실행한다.
+        ```bash
+        sh run_celery.sh
+        ```
+    
+* Web Server를 종료하고자 한다면 server_shutdown.sh를 실행한다.
+    ```bash
+    sh server_shutdown.sh
+    ``` 

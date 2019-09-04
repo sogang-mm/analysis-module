@@ -25,8 +25,8 @@ else:
 app.conf.update(
     # broker_url='amqp://localhost',
     result_backend='amqp://localhost',
-    timezone='UTC',
-    enable_utc=True,
+    timezone='Asia/Seoul',
+    enable_utc=False,
     worker_autoscaler='{0},{1}'.format(config.WORKER_MAX_SCALER, config.WORKER_MIN_SCALER),
     worker_concurrency='{0}'.format(config.WORKER_CONCURRENCY),
 )
