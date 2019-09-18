@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM floydhub/pytorch:0.3.1-gpu.cuda9cudnn7-py2.31
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
