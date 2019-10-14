@@ -1,5 +1,6 @@
 import os
 from Modules.dummy.example import test
+import xml.etree.ElementTree as ET
 
 class Dummy:
     model = None
@@ -17,8 +18,40 @@ class Dummy:
         # TODO
         #   - Inference using image path
         import time
-        time.sleep(2)
-        result = [[(0, 0, 0, 0), {'TEST': 0.95, 'DEBUG': 0.05}], [(100, 100, 100, 100), {'TEST': 0.95, 'DEBUG': 0.05}]]
+        result = self.read_content(os.path.join(self.path, "./sample.xml"))
+        # result = [[(0, 0, 0, 0), {'TEST': 0.95, 'DEBUG': 0.05}], [(100, 100, 100, 100), {'TEST': 0.95, 'DEBUG': 0.05}]]
         self.result = result
 
         return self.result
+
+
+    def read_content(self, xml_file):
+
+        tree = ET.parse(str(xml_file))
+        root = tree.getroot()
+
+        list_with_all_boxes = []
+        size = root.find('size')
+
+        width = size.find('width').text
+        height = size.find('height').text
+        depth = size.find('depth').text
+
+        img_size = {'width': width, 'height': height, 'depth': depth}
+        filename = None
+
+        for boxes in root.iter('object'):
+
+            filename = root.find('filename').text
+
+            ymin, xmin, ymax, xmax = None, None, None, None
+            for box in boxes.findall('bndbox'):
+                ymin = int(box.find('ymin').text)
+                xmin = int(box.find('xmin').text)
+                # ymax = int(box.find('ymax').text)
+                # xmax = int(box.find('xmax').text)
+
+            list_with_single_boxes = [(xmin, ymin, 256, 256), {'crack':100, 'none':0}]
+            list_with_all_boxes.append(list_with_single_boxes)
+
+        return list_with_all_boxes
