@@ -1,5 +1,5 @@
 import os
-from Modules.dummy.example import test
+# from Modules.dummy.example import test
 import xml.etree.ElementTree as ET
 
 class Dummy:
@@ -37,6 +37,11 @@ class Dummy:
         height = size.find('height').text
         depth = size.find('depth').text
 
+        patch = root.find('patch')
+        patch_size = patch.find('size')
+        patch_width = patch_size.find('width').text
+        patch_height = patch_size.find('height').text
+
         img_size = {'width': width, 'height': height, 'depth': depth}
         filename = None
 
@@ -48,10 +53,11 @@ class Dummy:
             for box in boxes.findall('bndbox'):
                 ymin = int(box.find('ymin').text)
                 xmin = int(box.find('xmin').text)
-                # ymax = int(box.find('ymax').text)
-                # xmax = int(box.find('xmax').text)
 
-            list_with_single_boxes = [(xmin, ymin, 256, 256), {'crack':100, 'none':0}]
+            list_with_single_boxes = [(xmin, ymin, patch_width, patch_height), {'crack':100, 'none':0}]
             list_with_all_boxes.append(list_with_single_boxes)
 
         return list_with_all_boxes
+
+dummy = Dummy()
+print(dummy.inference_by_path('sample.jpg'))
