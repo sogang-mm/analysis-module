@@ -14,7 +14,6 @@ import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 
 class Classification:
-    model = None
     result = None
     path = os.path.dirname(os.path.abspath(__file__))
 
@@ -36,20 +35,22 @@ class Classification:
         self.METRICS = ['accuracy']
         self.BATCH_SIZE = 1
         #
-        # json_file = open(os.path.join(self.path, MODEL_JSON_FILE_NAME), "r")
-        # loaded_model_json = json_file.read()
-        # json_file.close()
-        #
-        # config = tf.ConfigProto()
+        json_file = open(os.path.join(self.path, MODEL_JSON_FILE_NAME), "r")
+        loaded_model_json = json_file.read()
+        json_file.close()
+        
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
         # config.gpu_options.per_process_gpu_memory_fraction = 0.3
         # config.gpu_options.visible_device_list = "0"
-        # set_session(tf.Session(config=config))
-        #
+        set_session(tf.Session(config=config))
+        
         # self.model = None
-        # self.model.load_weights(os.path.join(self.path, MODEL_NAME))
-        # self.model._make_predict_function()
-        # self.model.compile(loss=self.LOSS, optimizer=self.OPTIMIZER, metrics=self.METRICS)
-
+        self.model = model_from_json(loaded_model_json)
+        self.model.load_weights(os.path.join(self.path, MODEL_NAME))
+        self.model.compile(loss=self.LOSS, optimizer=self.OPTIMIZER, metrics=self.METRICS)
+        self.model._make_predict_function()
+        
 
 
     def inference_by_path(self, image_path):
@@ -64,19 +65,19 @@ class Classification:
         MODEL_NAME = '25-0.9296.hdf5'
         MODEL_JSON_FILE_NAME = 'model.json'
 
-        json_file = open(os.path.join(self.path, MODEL_JSON_FILE_NAME), "r")
-        loaded_model_json = json_file.read()
-        json_file.close()
+        # json_file = open(os.path.join(self.path, MODEL_JSON_FILE_NAME), "r")
+        # loaded_model_json = json_file.read()
+        # json_file.close()
 
-        config = tf.ConfigProto()
-        config.gpu_options.per_process_gpu_memory_fraction = 0.3
-        config.gpu_options.visible_device_list = "0"
-        set_session(tf.Session(config=config))
+        # config = tf.ConfigProto()
+        # config.gpu_options.per_process_gpu_memory_fraction = 0.3
+        # config.gpu_options.visible_device_list = "0"
+        # set_session(tf.Session(config=config))
 
-        model = model_from_json(loaded_model_json)
-        model.load_weights(os.path.join(self.path, MODEL_NAME))
-        model._make_predict_function()
-        model.compile(loss=self.LOSS, optimizer=self.OPTIMIZER, metrics=self.METRICS)
+        # model = model_from_json(loaded_model_json)
+        # model.load_weights(os.path.join(self.path, MODEL_NAME))
+        # model._make_predict_function()
+        # model.compile(loss=self.LOSS, optimizer=self.OPTIMIZER, metrics=self.METRICS)
 
         print(image_path)
         slices_dir_name = image_name.split(".")[0] + str(datetime.now().timestamp()).replace('.', '')
@@ -116,20 +117,10 @@ class Classification:
 
         step_size_test = test_generator.n // test_generator.batch_size
 
-        print("test_generator.n", test_generator.n)
-
-        print("slices_dir", slices_dir)
-        print("=====================step_size_test fin======================")
-
         test_generator.reset()
-
-        print("=====================test_generator.reset() fin======================")
-
-        pred = model.predict_generator(test_generator,
+        pred = self.model.predict_generator(test_generator,
                                               steps=step_size_test,
                                               verbose=1)
-
-        print("=====================self.model.predict_generator fin======================")
 
 
         filenames = test_generator.filenames
@@ -187,5 +178,5 @@ class Classification:
             xmax = width
         return ymin, ymax, xmin, xmax
 
-#test = Classification()
-#print(test.inference_by_path("/workspace/Modules/classification/sample.jpg"))
+# test = Classification()
+# print(test.inference_by_path("/workspace/Modules/classification/sample.jpg"))
