@@ -12,7 +12,7 @@ import ast
 
 
 class ImageModel(models.Model):
-    image = models.ImageField(upload_to=filename.default)
+    file = models.FileField(upload_to=filename.default)
     token = models.AutoField(primary_key=True)
     uploaded_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
@@ -21,9 +21,9 @@ class ImageModel(models.Model):
         super(ImageModel, self).save(*args, **kwargs)
 
         if DEBUG:
-            task_get = ast.literal_eval(str(analyzer_by_path(self.image.path)))
+            task_get = ast.literal_eval(str(analyzer_by_path(self.file.path)))
         else:
-            task_get = ast.literal_eval(str(analyzer_by_path.delay(self.image.path).get()))
+            task_get = ast.literal_eval(str(analyzer_by_path.delay(self.file.path).get()))
 
         for result in task_get:
             self.result.create(values=result)
@@ -44,7 +44,7 @@ class ResultModel(models.Model):
         x, y, w, h = self.values[0]
         ResultPositionModel.objects.create(result_detail_model=self, x=x, y=y, w=w, h=h)
         for item in self.values[1].items():
-            self.label.create(description=item[0], score=float(item[1]))
+            self.label.create(description=item[0], score=str(item[1]))
         super(ResultModel, self).save()
 
 
@@ -62,7 +62,7 @@ class ResultPositionModel(models.Model):
 class ResultLabelModel(models.Model):
     result_detail_model = models.ForeignKey(ResultModel, related_name='label', on_delete=models.CASCADE)
     description = models.TextField(null=True, unique=False)
-    score = models.FloatField(null=True, unique=False)
+    score = models.TextField(null=True, unique=False)
 
     class Meta:
         ordering = ['-score']
