@@ -1,5 +1,4 @@
 # import torch libraries
-import errno
 import shutil
 
 import torch
@@ -292,7 +291,6 @@ class Segmentation:
             cropped_img=img.crop((x,y,x+patchsize,y+patchsize))
             saved_path = os.path.join(saveDir,'{}_{}_{}.jpg'.format(image_name,x,y))
             cropped_img.save(saved_path)
-
 
         return image_name
 

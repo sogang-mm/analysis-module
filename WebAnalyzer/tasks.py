@@ -33,7 +33,10 @@ def module_load_init(**__):
 
 @app.task
 def analyzer_by_path(image_path):
+    import time
+    start = time.time()
     result = analyzer.inference_by_path(image_path)
+    print("segmentation fin {}".format(time.time() - start))
     return result
 
 
