@@ -12,7 +12,7 @@ import ast
 
 
 class ImageModel(models.Model):
-    image = models.ImageField(upload_to=filename.default)
+    image = models.TextField()
     token = models.AutoField(primary_key=True)
     uploaded_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
@@ -21,13 +21,13 @@ class ImageModel(models.Model):
         super(ImageModel, self).save(*args, **kwargs)
 
         if DEBUG:
-            task_get = ast.literal_eval(str(analyzer_by_path(self.image.path)))
+            task_get = ast.literal_eval(str(analyzer_by_path(self.image)))
         else:
-            task_get = ast.literal_eval(str(analyzer_by_path.delay(self.image.path).get()))
+            task_get = ast.literal_eval(str(analyzer_by_path.delay(self.image).get()))
 
         for result in task_get:
             self.result.create(values=result)
-        super(ImageModel, self).save()
+        #super(ImageModel, self).save()
 
 
 class ResultModel(models.Model):
