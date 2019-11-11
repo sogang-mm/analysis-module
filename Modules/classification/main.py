@@ -14,6 +14,7 @@ import shutil
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 import time
+import json
 
 from AnalysisModule import settings
 
@@ -83,7 +84,7 @@ class Classification:
             xmax = width
         return ymin, ymax, xmin, xmax
 
-    def inference_by_path(self, seg_result):
+    def inference_by_path(self, seg_result, file_path):
         total_start = time.time()
 
         seg_img_path = os.path.join(self.path, settings.MEDIA_ROOT,
@@ -106,10 +107,28 @@ class Classification:
         start = time.time()
         image = self.hangul_filepath_imread(seg_img_path)
         height, width, __ = image.shape
+        json_file = open(file_path)
+        json_array = json.load(json_file)
 
-        for y in range(0, height - self.PATCH_SIZE, self.PATCH_SIZE):
-            for x in range(0, width - self.PATCH_SIZE, self.PATCH_SIZE):
-                # slice as 310x310
+        cracks = json_array['results'][0]['module_result']
+
+        # for y in range(0, height - self.PATCH_SIZE, self.PATCH_SIZE):
+        #     for x in range(0, width - self.PATCH_SIZE, self.PATCH_SIZE):
+        #         # slice as 310x310
+        #         xmin = x - self.MORE_CONTEXT
+        #         xmax = x + self.PATCH_SIZE + self.MORE_CONTEXT
+        #         ymin = y - self.MORE_CONTEXT
+        #         ymax = y + self.PATCH_SIZE + self.MORE_CONTEXT
+        #         ymin, ymax, xmin, xmax = self.coordinate_checker(width, height, ymin, ymax, xmin, xmax)
+        #         crop = image[ymin:ymax, xmin:xmax]
+        #         cv2.imwrite(os.path.join(slices_dir, "slices", '_' + str(x) + '_' + str(y) + '.jpg'), crop)
+
+        for j in range(0,len(cracks)):
+            crack=cracks[j]
+            labels = sorted(crack['label'], key=lambda label_list: (label_list['score']), reverse=True)
+            if labels[0]['description'] == "crack" :
+                x = int(crack['position']['x'])
+                y = int(crack['position']['y'])
                 xmin = x - self.MORE_CONTEXT
                 xmax = x + self.PATCH_SIZE + self.MORE_CONTEXT
                 ymin = y - self.MORE_CONTEXT
@@ -144,29 +163,24 @@ class Classification:
 
         if self.CLASS_MODE == 'categorical':
             for k in range(0, len(pred)):
-                # result = np.where(pred[k] == np.amax(pred[k]))
-                # print(result[0][0])
-                # predictions.append(result[0][0])
-                # if result[0][0] == 0:
-                #     patch_info = filenames[k].split('_')
-                #     xmin = int(patch_info[-2])
-                #     ymin = int(patch_info[-1].split(".")[0])
-                #     result = [(xmin, ymin, self.PATCH_SIZE, self.PATCH_SIZE), {'crack': 0.7}]
-                #     # {'crack':0.7, 'patch':0.2, 'LC':0, 'TC':0, 'AC':0, }
-                #     results.append(result)
                 patch_info = filenames[k].split('_')
                 xmin = int(patch_info[-2])
                 ymin = int(patch_info[-1].split(".")[0])
-                result = [(xmin, ymin, self.PATCH_SIZE, self.PATCH_SIZE),
-                          {'ac': pred[k][0], 'lc': pred[k][1], 'detail_norm': pred[k][2], 'tc': pred[k][3]}]
-                # print(result)
+                result = {
+                    "label": [
+                        {'description': 'ac', 'score': pred[k][0]},
+                        {'description': 'lc', 'score': pred[k][1]},
+                        {'description': 'detail_norm', 'score': pred[k][3]},
+                        {'description': 'tc', 'score': pred[k][2]}
+                    ],
+                    "position": {
+                        'x': xmin,
+                        'y': ymin,
+                        'w': self.PATCH_SIZE,
+                        'h': self.PATCH_SIZE
+                    }
+                }
                 results.append(result)
-
-        # else:
-        #     if k >= 0.5:
-        #         predictions.append(1)
-        #     else:
-        #         predictions.append(0)
 
         self.result = results
         shutil.rmtree(slices_dir)
