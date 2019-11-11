@@ -139,7 +139,20 @@ class Classification:
                     patch_info = filenames[k].split('_')
                     xmin = int(patch_info[-2])
                     ymin = int(patch_info[-1].split(".")[0])
-                    result = [(xmin, ymin, self.PATCH_SIZE, self.PATCH_SIZE), {'crack': pred[k][0], 'normal': pred[k][1], 'lane': pred[k][3], 'patch': pred[k][2]}]
+                    result = {
+                        "label" : [
+                            { 'description':'crack', 'score': pred[k][0] },
+                            { 'description': 'normal', 'score': pred[k][1] },
+                            { 'description': 'lane', 'score': pred[k][3] },
+                            { 'description': 'patch', 'score': pred[k][2] }
+                        ],
+                        "position" : {
+                            'x': xmin,
+                            'y': ymin,
+                            'w': self.PATCH_SIZE,
+                            'h': self.PATCH_SIZE
+                        }
+                    }
                     results.append(result)
 
         self.result = results
