@@ -27,14 +27,14 @@ class Classification:
         # TODO
         #   - initialize and load model here
         # MODEL_NAME = '25-0.9296.hdf5'
-        MODEL_NAME = 'actclc_28-0.9182.hdf5'
-        MODEL_JSON_FILE_NAME = 'actclc_28-0.9182.json'
+        MODEL_NAME = 'actclc_27-0.9068.hdf5'
+        MODEL_JSON_FILE_NAME = 'actclc_27-0.9068.json'
 
         self.FULLSIZE_IMAGE_PATH = os.path.join("/workspace/Modules/classification/", 'images')
         self.SLICE_IMAGE_PATH = os.path.join(self.FULLSIZE_IMAGE_PATH, 'slices')
         self.PATCH_SIZE = 256
         self.INPUT_IMAGE_SIZE = 224
-        self.MORE_CONTEXT = 256
+        self.MORE_CONTEXT = 27
         self.CLASS_MODE = 'categorical'  # 'binary' # 'categorical'
         self.ACTIVATION = 'softmax'  # 'sigmoid' # 'softmax'
         self.LOSS = 'categorical_crossentropy'  # 'binary_crossentropy' # 'categorical_crossentropy'
@@ -170,7 +170,7 @@ class Classification:
                     "label": [
                         {'description': 'ac', 'score': pred[k][0]},
                         {'description': 'lc', 'score': pred[k][1]},
-                        {'description': 'detail_norm', 'score': pred[k][3]},
+                        # {'description': 'detail_norm', 'score': pred[k][3]},
                         {'description': 'tc', 'score': pred[k][2]}
                     ],
                     "position": {
