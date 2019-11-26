@@ -27,8 +27,8 @@ class Classification:
         # TODO
         #   - initialize and load model here
         # MODEL_NAME = '25-0.9296.hdf5'
-        MODEL_NAME = 'actclc_27-0.9068.hdf5'
-        MODEL_JSON_FILE_NAME = 'actclc_27-0.9068.json'
+        MODEL_NAME = 'actclc_27-0.9323.hdf5'
+        MODEL_JSON_FILE_NAME = 'actclc_27-0.9323.json'
 
         self.FULLSIZE_IMAGE_PATH = os.path.join("/workspace/Modules/classification/", 'images')
         self.SLICE_IMAGE_PATH = os.path.join(self.FULLSIZE_IMAGE_PATH, 'slices')
