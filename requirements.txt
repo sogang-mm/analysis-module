@@ -1,4 +1,4 @@
-django==1.11.18
+django==1.11.23
 djangorestframework
 Pillow
 kombu==4.2.1
