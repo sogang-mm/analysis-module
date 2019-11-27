@@ -280,14 +280,16 @@ class Segmentation:
 
         response = requests.get(image_url)
         img = Image.open(BytesIO(response.content))
+        self.max_width = int(img.size[0])
+        self.max_height = int(img.size[1])
         image_name = image_url.split("/")[-1].split('.')[0]
 
 
         count = 0
-        for j in range(0,len(cracks)):
+        for j in range(0, len(cracks)):
             crack=cracks[j]
             labels = sorted(crack['label'], key=lambda label_list: (label_list['score']), reverse=True)
-            if labels[0]['description'] != "lane" :
+            if labels[0]['description'] == "crack" :
                 x = int(crack['position']['x'])
                 y = int(crack['position']['y'])
                 cropped_img=img.crop((x,y,x+patchsize,y+patchsize))
@@ -295,7 +297,7 @@ class Segmentation:
                 cropped_img.save(saved_path)
                 count+=1;
 
-        print("num of patches: ", len(cracks), " / ", "without lane: ", count)
+        print("num of patches: ", len(cracks), " / ", "only crack: ", count)
 
         return image_name
 
