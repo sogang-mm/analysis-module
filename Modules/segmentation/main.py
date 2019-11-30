@@ -306,7 +306,7 @@ class Segmentation:
             self.rootDir = rootDir
             self.transform = transform
             self.targetTransform = target_transform
-            self.frame = pd.read_csv(fileNames, dtype=str, delimiter=' ')
+            self.frame = pd.read_csv(fileNames, header=None, dtype=str, delimiter=' ')
 
         def __len__(self):
             return len(self.frame)
