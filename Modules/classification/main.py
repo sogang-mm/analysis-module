@@ -20,8 +20,8 @@ class Classification:
     path = os.path.dirname(os.path.abspath(__file__))
 
     def __init__(self):
-        MODEL_NAME = 'pat_22-0.9279.hdf5'
-        MODEL_JSON_FILE_NAME = 'pat_22-0.9279.json'
+        MODEL_NAME = 'cr_nor_pat_pot_line_19-0.9149.hdf5'
+        MODEL_JSON_FILE_NAME = 'cr_nor_pat_pot_line_19-0.9149.json'
 
         self.FULLSIZE_IMAGE_PATH = os.path.join("/workspace/Modules/classification/", 'images')
         self.SLICE_IMAGE_PATH = os.path.join(self.FULLSIZE_IMAGE_PATH, 'slices')
@@ -142,10 +142,12 @@ class Classification:
                     ymin = int(patch_info[-1].split(".")[0])
                     result = {
                         "label" : [
+                          # {'NR': 1, 'PAT': 2, 'WHITE': 4, 'POT': 3, 'CR': 0}
                             { 'description':'crack', 'score': pred[k][0] },
                             { 'description': 'normal', 'score': pred[k][1] },
-                            { 'description': 'lane', 'score': pred[k][3] },
-                            { 'description': 'patch', 'score': pred[k][2] }
+                            { 'description': 'patch', 'score': pred[k][2] },
+                            { 'description': 'pothole', 'score': pred[k][3] },
+                            { 'description': 'line', 'score': pred[k][4] }
                         ],
                         "position" : {
                             'x': xmin,
