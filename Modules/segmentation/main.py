@@ -178,7 +178,6 @@ class Segmentation:
         img_paths = glob.glob(os.path.join(dataRoot, 'testimg/*.jpg'))
 
         img_paths = sorted(img_paths)
-
         for img_path in img_paths:
             saved_img = os.path.relpath(img_path, dataRoot)
             saved_gt = saved_img.replace('testimg', 'testgt').replace('jpg', 'png')
@@ -304,7 +303,7 @@ class Segmentation:
             self.rootDir = rootDir
             self.transform = transform
             self.targetTransform = target_transform
-            self.frame = pd.read_csv(fileNames, dtype=str, delimiter=' ')
+            self.frame = pd.read_csv(fileNames, header=None, dtype=str, delimiter=' ')
 
         def __len__(self):
             return len(self.frame)
