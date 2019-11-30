@@ -149,16 +149,12 @@ class Segmentation:
         back = Image.new('RGB', (self.max_width, self.max_height), color='black')
         for idx, img_path in enumerate(img_paths):
             fname = img_path.split('/')[-1]
-            try:
-                fname_lst = fname.split('_')
-                x_start = int(fname_lst[len(fname_lst) - 2])
-                y_start = int(fname_lst[len(fname_lst) - 1].split('.')[0])
-
-                img = Image.open(img_path)
-                back.paste(img, (x_start, y_start))
-            except:
-                print(fname, "fail")
-                pass
+            fname_lst = fname.split('_')
+            x_start = int(fname_lst[len(fname_lst) - 2])
+            y_start = int(fname_lst[len(fname_lst) - 1].split('.')[0])
+            print(x_start, y_start)
+            img = Image.open(img_path)
+            back.paste(img, (x_start, y_start))
 
         buffered = BytesIO()
         back.save(buffered, format="JPEG")
@@ -265,6 +261,7 @@ class Segmentation:
         images=out[:5]
         output = Image.fromarray(out[0])
 
+
         if 'testimg' in fname.split('/'):
             save_path= (fname.split('.', 1)[0] + '.png').replace('testimg',outputDir)
             output.save(save_path)
@@ -289,15 +286,16 @@ class Segmentation:
         for j in range(0, len(cracks)):
             crack=cracks[j]
             labels = sorted(crack['label'], key=lambda label_list: (label_list['score']), reverse=True)
-            if labels[0]['description'] == "crack" :
-                x = int(crack['position']['x'])
-                y = int(crack['position']['y'])
+            if labels[0]['description'] == "pothole" :
+                x = int(cracks[j]['position']['x'])
+                y = int(cracks[j]['position']['y'])
+                print(x, y)
                 cropped_img=img.crop((x,y,x+patchsize,y+patchsize))
                 saved_path = os.path.join(saveDir,'{}_{}_{}.jpg'.format(image_name,x,y))
                 cropped_img.save(saved_path)
-                count+=1;
+                count+=1
 
-        print("num of patches: ", len(cracks), " / ", "only crack: ", count)
+        print("num of patches: ", len(cracks), " / ", "only pots: ", count)
 
         return image_name
 
