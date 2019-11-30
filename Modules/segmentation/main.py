@@ -30,7 +30,7 @@ class Segmentation:
     path = os.path.dirname(os.path.abspath(__file__))
 
     def __init__(self):
-        self.arg_Model = os.path.join(self.path, "HED0.pth")
+        self.arg_Model = os.path.join(self.path, "HED_MUHAN_POT_BEST_191129.pth")
         self.max_width = 3704
         self.max_height = 10000
 
