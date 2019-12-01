@@ -48,10 +48,6 @@ class Segmentation:
 
         self.result = {}
 
-        for Opt, Arg in getopt.getopt(sys.argv[1:], '', [strParameter[2:] + '=' for strParameter in sys.argv[1::2]])[0]:
-            if Opt == '--model' and Arg != '': self.arg_Model = Arg
-            if Opt == '--thres' and Arg != '': self.arg_Thres = float(Arg)
-
         # end
         self.evaluation = True  # our data : False !
 
