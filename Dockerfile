@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu16.04
+FROM thejn0729/crack-cls:latest
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
