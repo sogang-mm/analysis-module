@@ -1,8 +1,8 @@
-FROM thejn0729/crack-seg
+FROM nvidia/cuda:8.0-cudnn7-devel-ubuntu16.04
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-	   git wget apt-utils \
+	   git wget python3-pip apt-utils \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip
@@ -15,8 +15,6 @@ RUN pip3 install -r requirements.txt
 ENV DJANGO_SUPERUSER_USERNAME root
 ENV DJANGO_SUPERUSER_EMAIL none@none.com
 ENV DJANGO_SUPERUSER_PASSWORD password
-
-RUN service mysql restart
 
 # COPY docker-entrypoint.sh /docker-entrypoint.sh
 # RUN chmod +x /docker-entrypoint.sh
