@@ -2,7 +2,7 @@ FROM thejn0729/crack-seg
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-	   git wget python3-pip apt-utils \
+	   git wget apt-utils \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip
