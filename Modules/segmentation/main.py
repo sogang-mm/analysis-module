@@ -233,9 +233,7 @@ class Segmentation:
 
     def Print(self, out,outputDir):
 
-        fname = out[5]
-        inp = out[6]
-        images=out[:5]
+        fname = out[1]
         output = Image.fromarray(out[0])
 
 
