@@ -30,6 +30,7 @@ SECRET_KEY = str(secret_key.SECRET_KEY())
 
 ALLOWED_HOSTS = ['*']
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 100485760
 
 # Application definition
 
