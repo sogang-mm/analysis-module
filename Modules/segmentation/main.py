@@ -56,13 +56,13 @@ class Segmentation:
 
         # create instance of HED model
         self.model = HED()
-        self.model.cuda()
+        self.model.cuda(1)
 
         # load the weights for the model
         self.model.load_state_dict(torch.load(self.arg_Model))
 
     def inference_by_path(self, response):
-        nBatch = 4
+        nBatch = 16
         json_file = open(response)
         json_array = json.load(json_file)
         image_url = json_array['image']
@@ -110,7 +110,7 @@ class Segmentation:
                     inp, fpath = sample
                 else:
                     inp, fpath = sample
-                input_data = Variable(inp.cuda())
+                input_data = Variable(inp.cuda(1))
 
                 # perform forward computation
                 s1, s2, s3, s4, s5, s6 = self.model.forward(input_data)
