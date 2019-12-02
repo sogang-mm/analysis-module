@@ -104,71 +104,40 @@ class Segmentation:
             transforms.ToTensor()
         ])
 
-        testDataset = self.TestDataset(testPath, arg_DataRoot, transform, targetTransform)
+        try :
+            testDataset = self.TestDataset(testPath, arg_DataRoot, transform, targetTransform)
 
-        testDataloader = DataLoader(testDataset, batch_size=nBatch)
+            testDataloader = DataLoader(testDataset, batch_size=nBatch)
+            back = Image.new('RGB', (self.max_width, self.max_height), color='black')
+            for i, sample in enumerate(testDataloader):
+                # get input sample image
+                if self.evaluation:
+                    inp, fpath = sample
+                else:
+                    inp, fpath = sample
+                input_data = Variable(inp.cuda())
 
-        for i, sample in enumerate(testDataloader):
-            # get input sample image
-            if self.evaluation:
-                inp, fname = sample
-            else:
-                inp, fname = sample
-            input_data = Variable(inp.cuda())
+                # perform forward computation
+                s1, s2, s3, s4, s5, s6 = self.model.forward(input_data)
 
-            iou, precision, recall, f1 = 0.0, 0.0, 0.0, 0.0
-            # perform forward computation
-            s1, s2, s3, s4, s5, s6 = self.model.forward(input_data)
+                start_time = time.time()
 
-            start_time = time.time()
+                s6_gray = self.grayTrans(s6.data.cpu())
 
-            outs = []
-            s6_gray = self.grayTrans(s6.data.cpu())
-            s1_gray = self.grayTrans(s1.data.cpu())
-            s2_gray = self.grayTrans(s2.data.cpu())
-            s3_gray = self.grayTrans(s3.data.cpu())
-            s4_gray = self.grayTrans(s4.data.cpu())
-            # convert back to numpy arrays
+                # convert back to numpy arrays
 
-            for idx in range(s6_gray.shape[0]):
-                out = []
-                out.append(s6_gray[idx])  # 0
-                out.append(s1_gray[idx])  # 1
-                out.append(s2_gray[idx])  # 2
-                out.append(s3_gray[idx])  # 3
-                out.append(s4_gray[idx])  # 4
-                out.append(fname[idx])  # 5
-                out.append(inp[idx].cpu())  # 6
-
-                outs.append(out)
-
-            procs = []
-
-            for out in outs:
-                p = Process(target=self.Print, args=(out, arg_OutputDir))
-                procs.append(p)
-                p.start()
-
-            # Print(arg_Thres,outs[0])
-            for proc in procs:
-                proc.join()
-
-        img_paths = glob.glob(os.path.join(arg_OutputDir, '*.png'))
-        img_paths = sorted(img_paths)
-
-        back = Image.new('RGB', (self.max_width, self.max_height), color='black')
-        for idx, img_path in enumerate(img_paths):
-            fname = img_path.split('/')[-1]
-            try:
-                fname_lst = fname.split('_')
-                x_start = int(fname_lst[len(fname_lst) - 2])
-                y_start = int(fname_lst[len(fname_lst) - 1].split('.')[0])
-
-                img = Image.open(img_path)
-                back.paste(img, (x_start, y_start))
-            except:
-                print(fname, "fail")
-                pass
+                for idx in range(s6_gray.shape[0]):
+                    out = s6_gray[idx]
+                    out_img = Image.fromarray(np.uint8(out))
+                    fname = fpath[idx].split('/')[-1]
+                    fname_lst = fname.split('_')
+                    x_start = int(fname_lst[len(fname_lst) - 2])
+                    y_start = int(fname_lst[len(fname_lst) - 1].split('.')[0])
+                    back.paste(out_img, (x_start,y_start))
+ 
+        except :
+            print('Inference & Merge Error.')
+            back = Image.new('RGB', (self.max_width, self.max_height), color='black')
 
         buffered = BytesIO()
         back.save(buffered, format="JPEG")
