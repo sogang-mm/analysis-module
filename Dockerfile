@@ -1,4 +1,4 @@
-FROM thejn0729/crack-cls:latest
+FROM thejn0729/crack-cls-detail:latest
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
