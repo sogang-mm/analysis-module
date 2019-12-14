@@ -10,7 +10,7 @@ RUN pip3 install setuptools
 
 WORKDIR /workspace
 ADD . .
-RUN pip3 install -r requirements.txt
+#RUN pip3 install -r requirements.txt
 
 ENV DJANGO_SUPERUSER_USERNAME root
 ENV DJANGO_SUPERUSER_EMAIL none@none.com
@@ -20,7 +20,7 @@ RUN service mysql restart
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
-#ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 RUN chmod -R a+w /workspace
 
