@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn7-devel-ubuntu16.04
+FROM thejn0729/crack-seg-pot
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
