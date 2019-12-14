@@ -15,6 +15,7 @@ import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 import time
 import json
+from AnalysisModule.config import GPU_MEM_FRACTION
 
 from AnalysisModule import settings
 
@@ -49,7 +50,7 @@ class Classification:
 
         config = tf.ConfigProto()
         config.gpu_options.allow_growth = True
-        config.gpu_options.per_process_gpu_memory_fraction = 0.3
+        config.gpu_options.per_process_gpu_memory_fraction = GPU_MEM_FRACTION
         set_session(tf.Session(config=config))
 
         # self.model = None
