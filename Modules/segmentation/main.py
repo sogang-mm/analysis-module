@@ -33,6 +33,7 @@ from io import BytesIO
 from datetime import datetime
 import requests
 import base64
+from AnalysisModule.config import BATCH_SIZE
 
 class Segmentation:
     model = None
@@ -66,7 +67,7 @@ class Segmentation:
         self.model.load_state_dict(torch.load(self.arg_Model))
 
     def inference_by_path(self, response):
-        nBatch = 4
+        nBatch = BATCH_SIZE
         json_file = open(response)
         json_array = json.load(json_file)
         image_url = json_array['image']
