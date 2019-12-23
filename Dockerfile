@@ -1,4 +1,4 @@
-FROM thejn0729/crack-seg-pot
+FROM muhanit/crack-seg-pot
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
