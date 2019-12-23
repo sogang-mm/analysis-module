@@ -1,16 +1,7 @@
 FROM muhanit/crack-seg-pot
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-	   git wget python3-pip apt-utils \
-	&& rm -rf /var/lib/apt/lists/*
-
-RUN pip3 install --upgrade pip
-RUN pip3 install setuptools
-
 WORKDIR /workspace
 ADD . .
-#RUN pip3 install -r requirements.txt
 
 ENV DJANGO_SUPERUSER_USERNAME root
 ENV DJANGO_SUPERUSER_EMAIL none@none.com
