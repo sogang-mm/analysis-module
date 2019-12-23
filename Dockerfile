@@ -1,4 +1,4 @@
-FROM thejn0729/crack-seg
+FROM muhanit/crack-seg
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
