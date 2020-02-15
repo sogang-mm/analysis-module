@@ -2,6 +2,9 @@ amqp==2.3.2
 billiard==3.5.0.4
 certifi==2018.10.15
 idna==2.7
+django==1.11.23
+djangorestframework
+Pillow
 kombu==4.2.1
 pip==18.1
 pytz==2018.7
