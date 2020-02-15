@@ -27,13 +27,16 @@ def module_load_init(**__):
     #   - Add your model
     #   - You can use worker_index if you need to get and set gpu_id
     #       - ex) gpu_id = worker_index % TOTAL_GPU_NUMBER
-    from Modules.dummy.main import Dummy
-    analyzer = Dummy()
+    from Modules.segmentation.main import Segmentation
+    analyzer = Segmentation()
 
 
 @app.task
 def analyzer_by_path(image_path):
+    import time
+    start = time.time()
     result = analyzer.inference_by_path(image_path)
+    print("segmentation fin {}".format(time.time() - start))
     return result
 
 
