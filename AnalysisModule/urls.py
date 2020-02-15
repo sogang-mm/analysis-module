@@ -30,6 +30,7 @@ router.register(r'', WebAnalyzer.views.ImageViewSet)
 
 
 urlpatterns = [
+    url(r'^admin/', admin.site.urls),
     url(r'^analyzer/', include(router.urls)),   # Backward Compatibility
     url(r'^', include(router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

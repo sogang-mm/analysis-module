@@ -30,7 +30,7 @@ SECRET_KEY = str(secret_key.SECRET_KEY())
 
 ALLOWED_HOSTS = ['*']
 
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_mysql',
     'WebAnalyzer.apps.WebanalyzerConfig',
 ]
 
@@ -80,8 +81,15 @@ WSGI_APPLICATION = 'AnalysisModule.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'crackdb',
+        'USER': 'crackadmin',
+        'PASSWORD': 'crack',
+        'HOST': 'localhost',
+        'PORT': '3306',
+'OPTIONS': {
+            'charset': 'utf8mb4'
+        }
     }
 }
 
