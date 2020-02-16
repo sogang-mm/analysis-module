@@ -27,8 +27,8 @@ def module_load_init(**__):
     #   - Add your model
     #   - You can use worker_index if you need to get and set gpu_id
     #       - ex) gpu_id = worker_index % TOTAL_GPU_NUMBER
-    from Modules.dummy.main import Dummy
-    analyzer = Dummy()
+    from Modules.YOLOv3.main import YOLOv3
+    analyzer = YOLOv3()
 
 
 @app.task

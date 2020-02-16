@@ -1,0 +1,6 @@
+classes = 2
+train = dataset/train.txt
+valid = dataset/valid.txt
+names = /workspace/Modules/YOLOv3/nsfw.names
+backup = backup/
+
