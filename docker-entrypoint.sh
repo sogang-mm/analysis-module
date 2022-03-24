@@ -3,7 +3,7 @@ set -e
 
 cd /workspace
 sh run_migration.sh
-python -c "import os
+python3 -c "import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'AnalysisModule.settings'
 import django
 django.setup()
